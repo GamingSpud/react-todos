@@ -1,12 +1,13 @@
-import logo from './platzi.webp';
-import {TodoCounter} from './TodoCounter';
-import {TodoSearch} from './TodoSearch';
-import {TodoList} from './TodoList';
-import {TodoItem} from './TodoItem';
-import {CreateTodoButton} from './CreateTodoButton';
+import logo from '../platzi.webp';
+import {TodoCounter} from '../TodoCounter';
+import {TodoSearch} from '../TodoSearch';
+import {TodoList} from '../TodoList';
+import {TodoItem} from '../TodoItem';
+import {CreateTodoButton} from '../CreateTodoButton';
+import {useSearch} from '../useSearch';
 import React from 'react';
 
-const defaultItem = [
+const defaultTodos = [
   {text: 'Abrir los ojos', completed: true},
   {text: 'Respirar', completed: false},
   {text: 'Desayunar', completed: true},
@@ -39,41 +40,43 @@ function useLocalStorage(itemName, defaultItem) {
 
 function App() {
   
-  const [todos, saveTodos] = useLocalStorage('TODOS_v1', defaultItem);
-  const [searchValue, setSearchValue] = React.useState('');
+  const [todos, setTodos] = React.useState(defaultTodos);
   const completedTodos = todos.filter(todo => !!todo.completed).length;
   const totalTodos = todos.length;
+  const [searchValue, setSearchValue] = React.useState('');
   const filteredTodos = todos.filter((todo) => {
     const todoText = todo.text.toLocaleLowerCase();
     const filterText = searchValue.toLocaleLowerCase();
     return todoText.includes(filterText)
   });
+  /* const {filteredTodos, searchValue, setSearchValue} = 
+  useSearch({dataSet: todos, keys: ['text', 'completed']}); */
 
   const completeTodo = (text) => {
     const newTodos = [...todos];
     const todoIndex = newTodos.findIndex(
-      (todo) => todo.text == text
+      (todo) => todo.text === text
     );
-    newTodos[todoIndex].completed = true;
-    saveTodos(newTodos);
+    newTodos[todoIndex].completed = !newTodos[todoIndex].completed;
+    setTodos(newTodos);
   }
   const deleteTodo = (text) => {
     const newTodos = [...todos];
     const todoIndex = newTodos.findIndex(
-      (todo) => todo.text == text
+      (todo) => todo.text === text
     );
     newTodos.splice(todoIndex, 1);
-    saveTodos(newTodos);
+    setTodos(newTodos);
   }
 
   return (
     <React.Fragment>
       <TodoCounter completed={completedTodos} total={totalTodos} />
-      <TodoSearch 
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-      />
-      <TodoList>
+      <TodoList posts={todos}>
+        <TodoSearch 
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+        />
         {filteredTodos.map(todo => (
           <TodoItem 
           key={todo.text} 
