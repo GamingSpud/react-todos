@@ -1,11 +1,7 @@
-import logo from '../platzi.webp';
-import {TodoCounter} from '../TodoCounter';
-import {TodoSearch} from '../TodoSearch';
-import {TodoList} from '../TodoList';
-import {TodoItem} from '../TodoItem';
-import {CreateTodoButton} from '../CreateTodoButton';
-import {useSearch} from '../useSearch';
+// import logo from '../platzi.webp';
+import { AppUI } from './AppUI';
 import React from 'react';
+import {useSearch} from '../useSearch';
 
 const defaultTodos = [
   {text: 'Abrir los ojos', completed: true},
@@ -39,18 +35,17 @@ function useLocalStorage(itemName, defaultItem) {
 }
 
 function App() {
-  
   const [todos, setTodos] = React.useState(defaultTodos);
   const completedTodos = todos.filter(todo => !!todo.completed).length;
   const totalTodos = todos.length;
-  const [searchValue, setSearchValue] = React.useState('');
+  /* const [searchValue, setSearchValue] = React.useState('');
   const filteredTodos = todos.filter((todo) => {
     const todoText = todo.text.toLocaleLowerCase();
     const filterText = searchValue.toLocaleLowerCase();
     return todoText.includes(filterText)
-  });
-  /* const {filteredTodos, searchValue, setSearchValue} = 
-  useSearch({dataSet: todos, keys: ['text', 'completed']}); */
+  }); */
+  const {filteredTodos, searchValue, setSearchValue} = 
+  useSearch({dataSet: todos, keys: ["text"]});
 
   const completeTodo = (text) => {
     const newTodos = [...todos];
@@ -70,30 +65,20 @@ function App() {
   }
 
   return (
-    <React.Fragment>
-      <TodoCounter completed={completedTodos} total={totalTodos} />
-      <TodoList posts={todos}>
-        <TodoSearch 
-          searchValue={searchValue}
-          setSearchValue={setSearchValue}
-        />
-        {filteredTodos.map(todo => (
-          <TodoItem 
-          key={todo.text} 
-          text={todo.text}
-          completed={todo.completed}
-          onComplete={() => completeTodo(todo.text)}
-          onDelete={() => deleteTodo(todo.text)}
-          />
-        ))}
-      </TodoList>
-      <CreateTodoButton />
-    </React.Fragment>
+  <AppUI
+    completedTodos={completedTodos}
+    totalTodos={totalTodos}
+    todos={todos}
+    searchValue={searchValue}
+    setSearchValue={setSearchValue}
+    filteredTodos={filteredTodos}
+    completeTodo={completeTodo}
+    deleteTodo={deleteTodo}
+  />
   );
 }
 
 export default App;
 
-/* Usar variables en vez de localStorage, agregar el modal de añadir TODOs, 
-3 columnas por hacer, en progreso y terminados,, flechas para mover TODOs entre columnas
-FUZZYFINDER, service locator*/
+/* Agregar el modal de añadir TODOs, 3 columnas por hacer, en progreso
+y terminados,, flechas para mover TODOs entre columnas, service locator*/
