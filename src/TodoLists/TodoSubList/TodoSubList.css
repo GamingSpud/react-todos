@@ -1,0 +1,16 @@
+.TodoSubList {
+    margin: 0;
+    padding: 0 0 56px 0;
+    list-style: none;
+}
+
+.column {
+    width: 33.33%;
+    float: left;
+}
+
+@media screen and (max-width: 600px) {
+    .column {
+        width: 100%;
+    }
+}

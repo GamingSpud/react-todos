@@ -4,23 +4,41 @@ import {useSearch} from "../useSearch";
 const TodoContext = React.createContext()
 
 const defaultTodos = [
-    {text: 'Abrir los ojos', completed: true},
-    {text: 'Respirar', completed: false},
-    {text: 'Desayunar', completed: true},
-    {text: 'Cepillarse los dientes', completed: false},
-    {text: 'Usar estados derivados', completed: true}
+    {text: 'Abrir los ojos', completed: true, stage: 2},
+    {text: 'Respirar', completed: false, stage: 0},
+    {text: 'Desayunar', completed: true, stage: 2},
+    {text: 'Cepillarse los dientes', completed: false, stage: 0},
+    {text: 'Usar estados derivados', completed: true, stage: 2}
   ];
   
 
 function TodoProvider({children}){
   const [todos, setTodos] = React.useState(defaultTodos);
   const [openModal, setOpenModal] = React.useState(false);
-  const completedTodos = todos.filter(todo => !!todo.completed).length;
+  const toStartTodos = todos.filter(todo => todo.stage == 0).length;
+  const inProgressTodos = todos.filter(todo => todo.stage == 1).length;;
+  const completedTodos = todos.filter(todo => todo.stage == 2).length;
   const totalTodos = todos.length;
   const {filteredTodos, searchValue, setSearchValue} = 
   useSearch({dataSet: todos, keys: ["text"]});
 
 
+  const moveTodoRight = (text) => {
+    const newTodos = [...todos];
+    const todoIndex = newTodos.findIndex(
+      (todo) => todo.text === text
+    );
+    newTodos[todoIndex].stage = newTodos[todoIndex].stage + 1;
+    setTodos(newTodos);
+  }
+  const moveTodoLeft = (text) => {
+    const newTodos = [...todos];
+    const todoIndex = newTodos.findIndex(
+      (todo) => todo.text === text
+    );
+    newTodos[todoIndex].stage = newTodos[todoIndex].stage - 1;
+    setTodos(newTodos);
+  }
   const completeTodo = (text) => {
     const newTodos = [...todos];
     const todoIndex = newTodos.findIndex(
@@ -40,7 +58,8 @@ function TodoProvider({children}){
   const createTodo = (text) => {
     const newTodos = [...todos, {
       text: text,
-      completed: false
+      completed: false,
+      stage: 0
     }];
     setTodos(newTodos);
   }
@@ -63,7 +82,11 @@ function TodoProvider({children}){
             deleteTodo,
             openModal,
             setOpenModal,
-            focusNewTodoInput
+            focusNewTodoInput,
+            moveTodoLeft,
+            moveTodoRight,
+            toStartTodos,
+            inProgressTodos
         }}>
             {children}
         </TodoContext.Provider>

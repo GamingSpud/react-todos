@@ -1,6 +1,7 @@
 import { TodoCounter } from '../TodoCounter';
 import { TodoSearch } from '../TodoSearch';
-import { TodoList } from '../TodoList';
+import { TodoLists } from '../TodoLists';
+import { TodoSubList } from '../TodoLists/TodoSubList';
 import { TodoItem } from '../TodoItem';
 import { CreateTodoButton } from '../CreateTodoButton';
 import { TodoContext } from '../TodoContext';
@@ -14,24 +15,65 @@ function AppUI() {
         completeTodo,
         deleteTodo,
         openModal,
-        setOpenModal
+        setOpenModal,
+        moveTodoLeft,
+        moveTodoRight
     } = React.useContext(TodoContext);
 
     return (
         <React.Fragment>
             <TodoCounter />
-            <TodoList>
-                <TodoSearch />
-                {filteredTodos.map(todo => (
-                    <TodoItem 
-                        key={todo.text} 
-                        text={todo.text}
-                        completed={todo.completed}
-                        onComplete={() => completeTodo(todo.text)}
-                        onDelete={() => deleteTodo(todo.text)}
-                    />
-                ))}
-            </TodoList>
+            <TodoSearch />
+            <TodoLists className="row">
+                <TodoSubList className="column" key="0">
+                    <h2 style={{textAlign:'center'}}>Por Hacer</h2>
+                    {filteredTodos.filter(
+                        (todo) => todo.stage == 0
+                    ).map(todo => (
+                        <TodoItem 
+                            key={todo.text} 
+                            text={todo.text}
+                            completed={todo.completed}
+                            moveTodoLeft={() => moveTodoLeft(todo.text)}
+                            moveTodoRight={() => moveTodoRight(todo.text)}
+                            onComplete={() => completeTodo(todo.text)}
+                            onDelete={() => deleteTodo(todo.text)}
+                        />
+                    ))}
+                </TodoSubList>
+                <TodoSubList className="column" key="1">
+                    <h2 style={{textAlign:'center'}}>En Progreso</h2>
+                    {filteredTodos.filter(
+                        (todo) => todo.stage == 1
+                    ).map(todo => (
+                        <TodoItem 
+                            key={todo.text} 
+                            text={todo.text}
+                            completed={todo.completed}
+                            onMoveLeft={() => moveTodoLeft(todo.text)}
+                            onMoveRight={() => moveTodoRight(todo.text)}
+                            onComplete={() => completeTodo(todo.text)}
+                            onDelete={() => deleteTodo(todo.text)}
+                        />
+                    ))}
+                </TodoSubList>
+                <TodoSubList className="column" key="2">
+                    <h2 style={{textAlign:'center'}}>Terminados</h2>
+                    {filteredTodos.filter(
+                        (todo) => todo.stage == 2
+                    ).map(todo => (
+                        <TodoItem 
+                            key={todo.text} 
+                            text={todo.text}
+                            completed={todo.completed}
+                            onMoveLeft={() => moveTodoLeft(todo.text)}
+                            onMoveRight={() => moveTodoRight(todo.text)}
+                            onComplete={() => completeTodo(todo.text)}
+                            onDelete={() => deleteTodo(todo.text)}
+                        />
+                    ))}
+                </TodoSubList>
+            </TodoLists>
             <CreateTodoButton 
                 setOpenModal={setOpenModal}
             />
