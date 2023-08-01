@@ -37,19 +37,33 @@ function TodoProvider({children}){
     newTodos.splice(todoIndex, 1);
     setTodos(newTodos);
   }
+  const createTodo = (text) => {
+    const newTodos = [...todos, {
+      text: text,
+      completed: false
+    }];
+    setTodos(newTodos);
+  }
+  const focusNewTodoInput = (boolean) => {
+    if (boolean) {
+      document.getElementById('newTodoInput').focus();
+    }
+  }
 
     return (
         <TodoContext.Provider value={{
             completedTodos,
             totalTodos,
             todos,
+            createTodo,
             searchValue,
             setSearchValue,
             filteredTodos,
             completeTodo,
             deleteTodo,
             openModal,
-            setOpenModal
+            setOpenModal,
+            focusNewTodoInput
         }}>
             {children}
         </TodoContext.Provider>
