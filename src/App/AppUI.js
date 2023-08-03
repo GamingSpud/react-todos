@@ -17,7 +17,8 @@ function AppUI() {
         openModal,
         setOpenModal,
         moveTodoLeft,
-        moveTodoRight
+        moveTodoRight,
+        MAX_TODO_STAGE
     } = React.useContext(TodoContext);
 
     return (
@@ -33,7 +34,9 @@ function AppUI() {
                         <TodoItem 
                             key={todo.text} 
                             text={todo.text}
+                            stage={todo.stage}
                             completed={todo.completed}
+                            MAX_TODO_STAGE={MAX_TODO_STAGE}
                             moveTodoLeft={() => moveTodoLeft(todo.text)}
                             moveTodoRight={() => moveTodoRight(todo.text)}
                             onComplete={() => completeTodo(todo.text)}
@@ -49,9 +52,11 @@ function AppUI() {
                         <TodoItem 
                             key={todo.text} 
                             text={todo.text}
+                            stage={todo.stage}
                             completed={todo.completed}
-                            onMoveLeft={() => moveTodoLeft(todo.text)}
-                            onMoveRight={() => moveTodoRight(todo.text)}
+                            MAX_TODO_STAGE={MAX_TODO_STAGE}
+                            moveTodoLeft={() => moveTodoLeft(todo.text)}
+                            moveTodoRight={() => moveTodoRight(todo.text)}
                             onComplete={() => completeTodo(todo.text)}
                             onDelete={() => deleteTodo(todo.text)}
                         />
@@ -65,9 +70,11 @@ function AppUI() {
                         <TodoItem 
                             key={todo.text} 
                             text={todo.text}
+                            stage={todo.stage}
                             completed={todo.completed}
-                            onMoveLeft={() => moveTodoLeft(todo.text)}
-                            onMoveRight={() => moveTodoRight(todo.text)}
+                            MAX_TODO_STAGE={MAX_TODO_STAGE}
+                            moveTodoLeft={() => moveTodoLeft(todo.text)}
+                            moveTodoRight={() => moveTodoRight(todo.text)}
                             onComplete={() => completeTodo(todo.text)}
                             onDelete={() => deleteTodo(todo.text)}
                         />

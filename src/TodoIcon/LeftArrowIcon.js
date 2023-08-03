@@ -1,15 +1,24 @@
-import { FaChevronLeft } from 'react-icons/fa';
+import { TodoIcon } from './index';
 import React from 'react';
 
-const LeftArrowIcon = (props) => {
-    const {className, moveTodoLeft} = props;
-    return (
-        <FaChevronLeft 
-            color="grey"
-            className={className}
-            onClick={moveTodoLeft}
-        />
-    )
+const LeftArrowIcon = ({moveTodoLeft, stage}) => {
+    if (stage == 0) {
+        return(
+            <TodoIcon
+                type="leftArrow-inactive"
+                color="lightgrey"
+            />
+        );
+    } else {
+        return (
+            <TodoIcon 
+                type="leftArrow"
+                color="grey"
+                onClick={moveTodoLeft}
+                stage={stage}
+            />
+        );
+    }
 }
 
 export {LeftArrowIcon};

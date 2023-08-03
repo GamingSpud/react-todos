@@ -4,48 +4,45 @@ import {useSearch} from "../useSearch";
 const TodoContext = React.createContext()
 
 const defaultTodos = [
-    {text: 'Abrir los ojos', completed: true, stage: 2},
-    {text: 'Respirar', completed: false, stage: 0},
-    {text: 'Desayunar', completed: true, stage: 2},
-    {text: 'Cepillarse los dientes', completed: false, stage: 0},
-    {text: 'Usar estados derivados', completed: true, stage: 2}
-  ];
-  
+    {text: 'Abrir los ojos', stage: 1},
+    {text: 'Respirar', stage: 1},
+    {text: 'Desayunar', stage: 0},
+    {text: 'Cepillarse los dientes', stage: 0},
+    {text: 'Usar estados derivados', stage: 2},
+    {text: 'Subir TODOS a un Repositorio GIT público', stage: 2}
+];
+
 
 function TodoProvider({children}){
+  let MAX_TODO_STAGE = 2;
   const [todos, setTodos] = React.useState(defaultTodos);
   const [openModal, setOpenModal] = React.useState(false);
   const toStartTodos = todos.filter(todo => todo.stage == 0).length;
   const inProgressTodos = todos.filter(todo => todo.stage == 1).length;;
-  const completedTodos = todos.filter(todo => todo.stage == 2).length;
+  const completedTodos = todos.filter(todo => todo.stage == MAX_TODO_STAGE).length;
   const totalTodos = todos.length;
   const {filteredTodos, searchValue, setSearchValue} = 
   useSearch({dataSet: todos, keys: ["text"]});
-
 
   const moveTodoRight = (text) => {
     const newTodos = [...todos];
     const todoIndex = newTodos.findIndex(
       (todo) => todo.text === text
     );
-    newTodos[todoIndex].stage = newTodos[todoIndex].stage + 1;
-    setTodos(newTodos);
+    if (newTodos[todoIndex].stage < MAX_TODO_STAGE) {
+      newTodos[todoIndex].stage += 1;
+      setTodos(newTodos);
+    }
   }
   const moveTodoLeft = (text) => {
     const newTodos = [...todos];
     const todoIndex = newTodos.findIndex(
       (todo) => todo.text === text
     );
-    newTodos[todoIndex].stage = newTodos[todoIndex].stage - 1;
-    setTodos(newTodos);
-  }
-  const completeTodo = (text) => {
-    const newTodos = [...todos];
-    const todoIndex = newTodos.findIndex(
-      (todo) => todo.text === text
-    );
-    newTodos[todoIndex].completed = !newTodos[todoIndex].completed;
-    setTodos(newTodos);
+    if (newTodos[todoIndex].stage > 0) {
+      newTodos[todoIndex].stage -= 1;
+      setTodos(newTodos);
+    }
   }
   const deleteTodo = (text) => {
     const newTodos = [...todos];
@@ -78,7 +75,6 @@ function TodoProvider({children}){
             searchValue,
             setSearchValue,
             filteredTodos,
-            completeTodo,
             deleteTodo,
             openModal,
             setOpenModal,
@@ -86,7 +82,8 @@ function TodoProvider({children}){
             moveTodoLeft,
             moveTodoRight,
             toStartTodos,
-            inProgressTodos
+            inProgressTodos,
+            MAX_TODO_STAGE
         }}>
             {children}
         </TodoContext.Provider>

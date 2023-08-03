@@ -1,29 +1,25 @@
-//import {CompleteIcon} from '../TodoIcon/CompleteIcon'
-import {LeftArrowIcon} from '../TodoIcon/LeftArrowIcon'
-import {RightArrowIcon} from '../TodoIcon/RightArrowIcon'
-import {DeleteIcon} from '../TodoIcon/DeleteIcon'
-import { TodoContext } from '../TodoContext';
+import { LeftArrowIcon } from '../TodoIcon/LeftArrowIcon'
+import { RightArrowIcon } from '../TodoIcon/RightArrowIcon'
+import { DeleteIcon } from '../TodoIcon/DeleteIcon'
 import React from 'react';
 import './TodoItem.css';
 
 function TodoItem(props) {
-  const {
-    moveTodoLeft,
-    moveTodoRight
-  } = React.useContext(TodoContext);
     return (
       <li className="TodoItem">
         <LeftArrowIcon stage={props.stage}
-          moveTodoLeft={moveTodoLeft}
+          moveTodoLeft={props.moveTodoLeft}
         />
 
         <RightArrowIcon stage={props.stage}
-          moveTodoRight={moveTodoRight}
+          moveTodoRight={props.moveTodoRight}
+          MAX_TODO_STAGE={props.MAX_TODO_STAGE}
         />
 
         <p
-          className={`TodoItem-p ${props
-          .completed && "TodoItem-p--complete"}`}
+          className={`TodoItem-p`}
+          /* className={`TodoItem-p ${props
+          .completed && "TodoItem-p--complete"}`} */
         >{props.text}</p>
         
         <DeleteIcon onDelete={props.onDelete}/>
@@ -31,4 +27,4 @@ function TodoItem(props) {
     );
   }
 
-export {TodoItem};
+export { TodoItem };

@@ -1,7 +1,7 @@
 import React from 'react';
 import Fuse from 'fuse.js';
 
-const SCORE_THRESHOLD = 0.5;
+const SCORE_THRESHOLD = 0.6;
 
 function useSearch ({dataSet, keys}) {
     const [searchValue, setSearchValue] = React.useState('');
