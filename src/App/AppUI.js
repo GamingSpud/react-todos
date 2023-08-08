@@ -5,8 +5,10 @@ import { TodoSubList } from '../TodoLists/TodoSubList';
 import { TodoItem } from '../TodoItem';
 import { CreateTodoButton } from '../CreateTodoButton';
 import { TodoContext } from '../TodoContext';
-import { Modal } from '../Modal';
+import { CreateTodoModal } from '../CreateTodoModal';
 import { TodoForm } from '../TodoForm';
+import { ColumnForm } from '../ColumnForm';
+import { ColumnModal } from '../ColumnModal';
 import React from 'react';
 
 function AppUI() {
@@ -14,11 +16,14 @@ function AppUI() {
         filteredTodos,
         completeTodo,
         deleteTodo,
-        openModal,
-        setOpenModal,
+        openCreateModal,
+        setOpenCreateModal,
+        openColumnModal,
+        setOpenColumnModal,
         moveTodoLeft,
         moveTodoRight,
-        MAX_TODO_STAGE
+        MAX_TODO_STAGE,
+        todoSubListTitle
     } = React.useContext(TodoContext);
 
     return (
@@ -26,8 +31,7 @@ function AppUI() {
             <TodoCounter />
             <TodoSearch />
             <TodoLists className="row">
-                <TodoSubList className="column" key="0">
-                    <h2 style={{textAlign:'center'}}>Por Hacer</h2>
+                <TodoSubList className="column" stage="0" todoSubListTitle={todoSubListTitle[0]}>
                     {filteredTodos.filter(
                         (todo) => todo.stage == 0
                     ).map(todo => (
@@ -43,9 +47,13 @@ function AppUI() {
                             onDelete={() => deleteTodo(todo.text)}
                         />
                     ))}
+                    {openColumnModal && (
+                        <ColumnModal>
+                            <ColumnForm />
+                        </ColumnModal>
+                    )}
                 </TodoSubList>
-                <TodoSubList className="column" key="1">
-                    <h2 style={{textAlign:'center'}}>En Progreso</h2>
+                <TodoSubList className="column" stage="1" todoSubListTitle={todoSubListTitle[1]}>
                     {filteredTodos.filter(
                         (todo) => todo.stage == 1
                     ).map(todo => (
@@ -61,9 +69,13 @@ function AppUI() {
                             onDelete={() => deleteTodo(todo.text)}
                         />
                     ))}
+                    {openColumnModal && (
+                        <ColumnModal>
+                            <ColumnForm />
+                        </ColumnModal>
+                    )}
                 </TodoSubList>
-                <TodoSubList className="column" key="2">
-                    <h2 style={{textAlign:'center'}}>Terminados</h2>
+                <TodoSubList className="column" stage="2" todoSubListTitle={todoSubListTitle[2]}>
                     {filteredTodos.filter(
                         (todo) => todo.stage == 2
                     ).map(todo => (
@@ -79,15 +91,20 @@ function AppUI() {
                             onDelete={() => deleteTodo(todo.text)}
                         />
                     ))}
+                    {openColumnModal && (
+                        <ColumnModal>
+                            <ColumnForm />
+                        </ColumnModal>
+                    )}
                 </TodoSubList>
             </TodoLists>
             <CreateTodoButton 
-                setOpenModal={setOpenModal}
+                setOpenCreateModal={setOpenCreateModal}
             />
-            {openModal && (
-                <Modal>
+            {openCreateModal && (
+                <CreateTodoModal>
                     <TodoForm />
-                </Modal>
+                </CreateTodoModal>
             )}
         </React.Fragment>
     );

@@ -1,14 +1,14 @@
 import React from "react";
 import { createPortal } from "react-dom";
-import './Modal.css';
+import './ColumnModal.css';
 
-function Modal({children}){
+function ColumnModal({children}){
     return createPortal(
-        <div className="ModalBackground">
+        <div className="ColumnModalBackground">
             {children}
         </div>,
         document.getElementById('modal')
     );
 }
 
-export {Modal};
+export { ColumnModal };

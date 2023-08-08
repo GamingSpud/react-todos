@@ -48,6 +48,28 @@
     color: red;
 }
 
+.Icon-container-downArrow {
+    /* border-style: solid;
+    border-radius: 50%;
+    border-color: grey;
+    border-width: 3px;
+    height: 28px;
+    width: 28px; */
+    position: absolute;
+    top: -8px;
+    right: -22px;
+    transform: rotate(0);
+    transition: .3s ease;
+}
+
+.Icon-container-downArrow:hover .Icon-svg-small {
+    fill: #a0a0ff;
+}
+
+.Icon-container-downArrow-active {
+    transform: rotate(180deg);
+}
+
 .Icon-svg {
     width: 20px;
     height: 20px;    
@@ -58,14 +80,40 @@
     height: 26px;    
 }
 
+.Icon-svg-tiny {
+    width: 84px;
+    height: 84px;
+}
+
+.Icon-container-addCircle{
+    background-color: #f2f4f5;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 48px;
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 84px;
+    width: 84px;
+    z-index: 1;
+    transform: rotate(0);
+    transition: .3s ease;
+}
+
+.Icon-container-addCircle:hover {
+    transform: rotate(315deg);
+}
+
 .Icon-container-leftArrow:hover .Icon-svg-small{
     fill: #a0a0ff;
-    color: #a0a0ff;
 }
 
 .Icon-container-rightArrow:hover .Icon-svg-small{
     fill: #a0a0ff;
-    color: #a0a0ff;
 }
 
 .Icon-container-delete:hover .Icon-svg{

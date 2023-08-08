@@ -16,14 +16,20 @@ const defaultTodos = [
 function TodoProvider({children}){
   let MAX_TODO_STAGE = 2;
   const [todos, setTodos] = React.useState(defaultTodos);
-  const [openModal, setOpenModal] = React.useState(false);
+  const [openCreateModal, setOpenCreateModal] = React.useState(false);
+  const [openColumnModal, setOpenColumnModal] = React.useState(false);
   const toStartTodos = todos.filter(todo => todo.stage == 0).length;
   const inProgressTodos = todos.filter(todo => todo.stage == 1).length;;
   const completedTodos = todos.filter(todo => todo.stage == MAX_TODO_STAGE).length;
   const totalTodos = todos.length;
   const {filteredTodos, searchValue, setSearchValue} = 
   useSearch({dataSet: todos, keys: ["text"]});
-
+  const todoSubListTitle = {
+    2: 'Terminados',
+    1: 'En Progreso',
+    0: 'Por hacer',
+  };
+  
   const moveTodoRight = (text) => {
     const newTodos = [...todos];
     const todoIndex = newTodos.findIndex(
@@ -76,14 +82,17 @@ function TodoProvider({children}){
             setSearchValue,
             filteredTodos,
             deleteTodo,
-            openModal,
-            setOpenModal,
+            openCreateModal,
+            setOpenCreateModal,
+            openColumnModal,
+            setOpenColumnModal,
             focusNewTodoInput,
             moveTodoLeft,
             moveTodoRight,
             toStartTodos,
             inProgressTodos,
-            MAX_TODO_STAGE
+            MAX_TODO_STAGE,
+            todoSubListTitle
         }}>
             {children}
         </TodoContext.Provider>
