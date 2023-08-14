@@ -5,7 +5,7 @@ const RightArrowIcon = ({moveTodoRight, stage, MAX_TODO_STAGE}) => {
     if (stage == MAX_TODO_STAGE) {
         return(
             <TodoIcon
-                type="rightArrow-inactive"
+                type="rightArrow--inactive"
                 color="lightgrey"
             />
         );

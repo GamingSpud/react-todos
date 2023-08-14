@@ -17,7 +17,6 @@ function TodoProvider({children}){
   let MAX_TODO_STAGE = 2;
   const [todos, setTodos] = React.useState(defaultTodos);
   const [openCreateModal, setOpenCreateModal] = React.useState(false);
-  const [openColumnModal, setOpenColumnModal] = React.useState(false);
   const toStartTodos = todos.filter(todo => todo.stage == 0).length;
   const inProgressTodos = todos.filter(todo => todo.stage == 1).length;;
   const completedTodos = todos.filter(todo => todo.stage == MAX_TODO_STAGE).length;
@@ -84,8 +83,6 @@ function TodoProvider({children}){
             deleteTodo,
             openCreateModal,
             setOpenCreateModal,
-            openColumnModal,
-            setOpenColumnModal,
             focusNewTodoInput,
             moveTodoLeft,
             moveTodoRight,

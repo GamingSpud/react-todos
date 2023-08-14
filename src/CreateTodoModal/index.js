@@ -7,7 +7,7 @@ function CreateTodoModal({children}){
         <div className="CreateTodoModalBackground">
             {children}
         </div>,
-        document.getElementById('modal')
+        document.getElementById('createTodoModal')
     );
 }
 

@@ -5,7 +5,7 @@ const LeftArrowIcon = ({moveTodoLeft, stage}) => {
     if (stage == 0) {
         return(
             <TodoIcon
-                type="leftArrow-inactive"
+                type="leftArrow--inactive"
                 color="lightgrey"
             />
         );

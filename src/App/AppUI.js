@@ -7,8 +7,6 @@ import { CreateTodoButton } from '../CreateTodoButton';
 import { TodoContext } from '../TodoContext';
 import { CreateTodoModal } from '../CreateTodoModal';
 import { TodoForm } from '../TodoForm';
-import { ColumnForm } from '../ColumnForm';
-import { ColumnModal } from '../ColumnModal';
 import React from 'react';
 
 function AppUI() {
@@ -18,8 +16,6 @@ function AppUI() {
         deleteTodo,
         openCreateModal,
         setOpenCreateModal,
-        openColumnModal,
-        setOpenColumnModal,
         moveTodoLeft,
         moveTodoRight,
         MAX_TODO_STAGE,
@@ -47,11 +43,6 @@ function AppUI() {
                             onDelete={() => deleteTodo(todo.text)}
                         />
                     ))}
-                    {openColumnModal && (
-                        <ColumnModal>
-                            <ColumnForm />
-                        </ColumnModal>
-                    )}
                 </TodoSubList>
                 <TodoSubList className="column" stage="1" todoSubListTitle={todoSubListTitle[1]}>
                     {filteredTodos.filter(
@@ -69,11 +60,6 @@ function AppUI() {
                             onDelete={() => deleteTodo(todo.text)}
                         />
                     ))}
-                    {openColumnModal && (
-                        <ColumnModal>
-                            <ColumnForm />
-                        </ColumnModal>
-                    )}
                 </TodoSubList>
                 <TodoSubList className="column" stage="2" todoSubListTitle={todoSubListTitle[2]}>
                     {filteredTodos.filter(
@@ -91,11 +77,6 @@ function AppUI() {
                             onDelete={() => deleteTodo(todo.text)}
                         />
                     ))}
-                    {openColumnModal && (
-                        <ColumnModal>
-                            <ColumnForm />
-                        </ColumnModal>
-                    )}
                 </TodoSubList>
             </TodoLists>
             <CreateTodoButton 
