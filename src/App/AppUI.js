@@ -11,6 +11,7 @@ import React from 'react';
 
 function AppUI() {
     const {
+        columns,
         filteredTodos,
         completeTodo,
         deleteTodo,
@@ -19,7 +20,6 @@ function AppUI() {
         moveTodoLeft,
         moveTodoRight,
         MAX_TODO_STAGE,
-        todoSubListTitle
     } = React.useContext(TodoContext);
 
     return (
@@ -27,9 +27,10 @@ function AppUI() {
             <TodoCounter />
             <TodoSearch />
             <TodoLists className="row">
-                <TodoSubList className="column" stage="0" todoSubListTitle={todoSubListTitle[0]}>
+                {columns.map((v,i,a) => (
+                    <TodoSubList className="column" key={i+v} stage={i.toString()} todoSubListTitle={v}>
                     {filteredTodos.filter(
-                        (todo) => todo.stage == 0
+                        (todo) => todo.stage === i
                     ).map(todo => (
                         <TodoItem 
                             key={todo.text} 
@@ -44,40 +45,7 @@ function AppUI() {
                         />
                     ))}
                 </TodoSubList>
-                <TodoSubList className="column" stage="1" todoSubListTitle={todoSubListTitle[1]}>
-                    {filteredTodos.filter(
-                        (todo) => todo.stage == 1
-                    ).map(todo => (
-                        <TodoItem 
-                            key={todo.text} 
-                            text={todo.text}
-                            stage={todo.stage}
-                            completed={todo.completed}
-                            MAX_TODO_STAGE={MAX_TODO_STAGE}
-                            moveTodoLeft={() => moveTodoLeft(todo.text)}
-                            moveTodoRight={() => moveTodoRight(todo.text)}
-                            onComplete={() => completeTodo(todo.text)}
-                            onDelete={() => deleteTodo(todo.text)}
-                        />
-                    ))}
-                </TodoSubList>
-                <TodoSubList className="column" stage="2" todoSubListTitle={todoSubListTitle[2]}>
-                    {filteredTodos.filter(
-                        (todo) => todo.stage == 2
-                    ).map(todo => (
-                        <TodoItem 
-                            key={todo.text} 
-                            text={todo.text}
-                            stage={todo.stage}
-                            completed={todo.completed}
-                            MAX_TODO_STAGE={MAX_TODO_STAGE}
-                            moveTodoLeft={() => moveTodoLeft(todo.text)}
-                            moveTodoRight={() => moveTodoRight(todo.text)}
-                            onComplete={() => completeTodo(todo.text)}
-                            onDelete={() => deleteTodo(todo.text)}
-                        />
-                    ))}
-                </TodoSubList>
+                ))}
             </TodoLists>
             <CreateTodoButton 
                 setOpenCreateModal={setOpenCreateModal}

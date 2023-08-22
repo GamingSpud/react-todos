@@ -2,7 +2,7 @@ import { TodoIcon } from './index';
 import React from 'react';
 
 const LeftArrowIcon = ({moveTodoLeft, stage}) => {
-    if (stage == 0) {
+    if (stage === 0) {
         return(
             <TodoIcon
                 type="leftArrow--inactive"

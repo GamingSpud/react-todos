@@ -1,14 +1,14 @@
 .TodoList {
     margin-top: 20px;
     margin-left: 0px;
-    margin-right: -24px;
+    margin-right: -22px;
     padding: 0 0 56px 0;
     list-style: none;
 }
 
 .row::after {
     content: "";
-    display: table;
+    display:block;
     clear: both;
 }
 

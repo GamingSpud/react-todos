@@ -2,7 +2,8 @@ import { TodoIcon } from './index';
 import React from 'react';
 
 const RightArrowIcon = ({moveTodoRight, stage, MAX_TODO_STAGE}) => {
-    if (stage == MAX_TODO_STAGE) {
+    if (stage === MAX_TODO_STAGE) {
+        console.log(MAX_TODO_STAGE);
         return(
             <TodoIcon
                 type="rightArrow--inactive"

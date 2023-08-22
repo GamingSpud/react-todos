@@ -12,22 +12,21 @@ const defaultTodos = [
     {text: 'Subir TODOS a un Repositorio GIT público', stage: 2}
 ];
 
+const columns = [
+  'Por Hacer',
+  'En Progreso',
+  'Terminados'
+]
+
+let MAX_TODO_STAGE = 2;
 
 function TodoProvider({children}){
-  let MAX_TODO_STAGE = 2;
   const [todos, setTodos] = React.useState(defaultTodos);
   const [openCreateModal, setOpenCreateModal] = React.useState(false);
-  const toStartTodos = todos.filter(todo => todo.stage == 0).length;
-  const inProgressTodos = todos.filter(todo => todo.stage == 1).length;;
-  const completedTodos = todos.filter(todo => todo.stage == MAX_TODO_STAGE).length;
+  const completedTodos = todos.filter(todo => todo.stage === MAX_TODO_STAGE).length;
   const totalTodos = todos.length;
   const {filteredTodos, searchValue, setSearchValue} = 
   useSearch({dataSet: todos, keys: ["text"]});
-  const todoSubListTitle = {
-    2: 'Terminados',
-    1: 'En Progreso',
-    0: 'Por hacer',
-  };
   
   const moveTodoRight = (text) => {
     const newTodos = [...todos];
@@ -70,9 +69,44 @@ function TodoProvider({children}){
       document.getElementById('newTodoInput').focus();
     }
   }
+  const newColumn = (int) => {
+    const newTodos = [...todos];
+    newTodos.filter((todo) => todo.stage >= int).forEach((todo) => todo.stage += 1);
+    setTodos(newTodos);
+    columns.splice(int, 0, "aba");
+    MAX_TODO_STAGE += 1;
+  }
+  const deleteColumn = (int) => {
+    columns.splice(int, 1);
+    let newTodos = [...todos];
+    newTodos = newTodos.filter((todo) => todo.stage != int);
+    newTodos.forEach((todo) => {
+      if (todo.stage > int) {
+        todo.stage -= 1
+      }
+    });
+    setTodos(newTodos);
+    MAX_TODO_STAGE -= 1;
+  }
+  const swapColumn = (int) => {
+    const newTodos = [...todos];
+    newTodos.filter((todo) => todo.stage >= int).forEach((todo) => todo.stage += 1);
+    setTodos(newTodos);
+    if (int < MAX_TODO_STAGE) {
+      const bubble = columns[int];
+      columns[int] = columns[int+1];
+      columns[int+1] = bubble;
+    } else {
+      const bubble = columns[int-1];
+      columns[int-1] = columns[int];
+      columns[int] = bubble;
+    }
+    MAX_TODO_STAGE += 1;
+  }
 
     return (
         <TodoContext.Provider value={{
+            columns,
             completedTodos,
             totalTodos,
             todos,
@@ -86,11 +120,10 @@ function TodoProvider({children}){
             focusNewTodoInput,
             moveTodoLeft,
             moveTodoRight,
-            toStartTodos,
-            inProgressTodos,
             MAX_TODO_STAGE,
-            todoSubListTitle
-        }}>
+            newColumn,
+            deleteColumn,
+          }}>
             {children}
         </TodoContext.Provider>
     );

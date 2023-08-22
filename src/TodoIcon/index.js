@@ -16,20 +16,21 @@ const iconTypes = {
     "rightArrow--inactive": (color) => <FaChevronRight className="Icon-svg-small" fill={color}/>,
     "check": (color) => <CheckSVG className="Icon-svg" fill={color}/>,
     "delete": (color) => <DeleteSVG className="Icon-svg" fill={color}/>,
-    "addCircle": (color) => <MdAddCircle className="Icon-svg-tiny" fill={color}/>,
     "trash": (color) => <FaTrashCan className="Icon-svg-small" fill={color}/>,
+    "addCircle": (color) => <MdAddCircle className="Icon-svg-tiny" fill={color}/>,
+    "addCircle2": (color) => <MdAddCircle className="Icon-svg-smaller" fill={color}/>,
     "downArrow": (color) => <FaChevronDown className="Icon-svg-small" fill={color}/>,
     "swapArrow": (color) => <FaArrowRightArrowLeft className="Icon-svg-small" fill={color}/>,
     "edit": (color) => <FaEdit className="Icon-svg-small" fill={color} />
 };
 
-function TodoIcon({type, color, onClick}) {
+function TodoIcon(props) {
     return (
         <span 
-            className={`Icon-container Icon-container-${type}`}
-            onClick={onClick}
+            className={`Icon-container Icon-container-${props.type} ${props.active && `Icon-container-${props.type}--active`}`}
+            onClick={props.onClick}
         >
-            {iconTypes[type](color)}
+            {iconTypes[props.type](props.color, props.active)}
         </span>
     )
 }

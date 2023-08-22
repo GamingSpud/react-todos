@@ -7,7 +7,7 @@ function TodoForm () {
     const {
         setOpenCreateModal,
         createTodo,
-        focusNewTodoInput
+        // focusNewTodoInput
     } = React.useContext(TodoContext);
     const onSubmit = (event) => {
         event.preventDefault();
